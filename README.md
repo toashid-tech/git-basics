@@ -23,6 +23,16 @@ as putting your GitHub portfolio on your resume is pretty common.
 - **GitHub** is a website that hosts git repositories and provides convenience
   tools.
   
+## Setting up your Git username
+
+You should set up your name and email on Git, so it can attribute the changes
+you make to you. For this, you need to run the following commands:
+
+```
+git config --global user.name "Your name"
+git config --global user.email "the email address you used when creating your github account"
+```
+  
 ## Creating an SSH key
 
 **If you already created an SSH key, you can skip to the next session.**
@@ -320,13 +330,13 @@ see something like this:
 
 ```
 commit 413cdffa69b146281beb524f03c69d0f9e352085 (HEAD -> main)
-Author: Mehmet Emre <memre@usfca.edu>
+Author: Your name <your email>
 Date:   Fri Feb 7 17:35:13 2025 -0800
 
     Created a hello world program
 
 commit 547d605a39013cd0f057f8ca36050101998ccd85
-Author: Mehmet Emre <memre@usfca.edu>
+Author: Your name <your email>
 Date:   Fri Feb 7 17:31:32 2025 -0800
 
     added a new line to hello.txt
@@ -356,7 +366,51 @@ To github.com:<your username>/git-basics.git
    88ab9ab..413cdff  main -> main
 ```
 
-## TODO Restoring some changes
+Now, if you refresh this page, you should see the updated files in the file list
+above this README.
+
+## Restoring some changes
+
+One crucial functionality of Git is that **it is a backup you can use for
+changes**.  To test this, let's just delete `hello.txt`.  Run `rm hello.txt`
+then `ls`.  You should see that it is no longer in the file list:
+
+```
+$ ls
+greet.py  README.md
+```
+
+However, Git still remembers old versions of this file.  Run `git status`:
+
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    hello.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+You can see that the action of deleting `hello.txt` is not committed to Git
+history, and Git even tells us how to undo that change: via `git restore`.
+
+Run `git restore hello.txt`.  Voila! `hello.txt` is back:
+
+```
+$ ls
+greet.py  hello.txt  README.md
+```
+
+## How often should you commit?
+
+I suggest creating and pushing commits when you are done with a logical step
+(e.g., when you are passing a set of tests, or when you implemented an aspect of
+your assignment).  This way, you can rest assured that you have a rich history
+of backups you can restore from, and you can browse through your earlier changes
+more easily.
 
 ## Summary of commands:
 
