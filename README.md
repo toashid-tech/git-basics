@@ -129,8 +129,39 @@ directory on your file browser:
 - On macOS, `open .`
 - On Windows, `start .`
 
-## TODO Making changes
+## Where everything is stored
+
+Git allows you to work on your own copy of a project and upload/download the
+changes when working with others.  We will use it only for a solo project, but
+some aspects of this collaboration-first design are already there:
+- You have your copy on your computer.
+- There is another copy on GitHub.
+- Changes to one copy are not automatically synchronized to the other copy.
+
+We will do the following to see how you can use Git for keeping track of changes
+and having a backup for your code:
+1. Making some changes.
+2. Adding those changes to your change history.
+3. Uploading the changes to GitHub.
+4. Making more changes.
+5. Undoing some changes.
+
+## Making changes
+
+Let's start by 
 
 ## TODO Adding changes to your local repository
 
 ## TODO Uploading changes to GitHub
+
+## TODO Restoring some changes
+
+## Summary of commands:
+
+- `git clone` creates a brand new copy of a remote Git repository.
+- `git pull` downloads the new changes (new commits) **from** the remote
+  repository.  We have not used this command in this tutorial.
+- `git add` marks some files as changed for the next commit.
+- `git commit -m 'commit message'` creates a new commit.
+- `git push` uploads all the new commits **to** the remote repository.
+- `git restore foo.txt` undoes uncommitted changes to `foo.txt`.
