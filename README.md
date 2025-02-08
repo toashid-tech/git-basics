@@ -148,11 +148,213 @@ and having a backup for your code:
 
 ## Making changes
 
-Let's start by 
+Let's start by inspecting the status of our repository by running `git status`,
+this is what we get:
 
-## TODO Adding changes to your local repository
+```
+On branch main
+Your branch is up to date with 'origin/main'.
 
-## TODO Uploading changes to GitHub
+nothing to commit, working tree clean
+```
+
+- The first line tells us which branch we are on, which is not important for
+  this tutorial (we will see what branches are used for in the next workshop).
+- The second line tells us that we are up to date with the remote repo (the
+  default name for the remote repo is `origin`), and all changes we downloaded
+  are synchronized.
+- The last line tells us that there is nothing new on our local repo that we
+  haven't uploaded to GitHub yet.
+  
+As we just cloned the repository, this all makes sense.  Let's start by editing
+an existing file: open `hello.txt` on your favorite text editor, add a new line
+(for example, add a line that says `I am learning Git!`), and save the file.
+
+When you run `git status`, you should see the following:
+
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   hello.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Most of the information is the same as before, but we can see that there is a
+change that is not "staged for commit".  "Staged for commit" means that the
+change is marked for the next item we will add to the change history (each one
+of these items is called a **commit**).
+
+Specifcally, we have modified the file `hello.txt` but we haven't marked that
+change.
+
+## Adding changes to your local repository
+
+We will use the `git add` command to mark/stage/add changes for our next commit.
+
+### Marking a change
+
+Let's tell Git that we want to include the modifications to `hello.txt` in our
+next commit:
+
+```
+git add hello.txt
+```
+
+Now, if we run `git status`, we will see something different:
+
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   hello.txt
+
+```
+
+You can see that the modification is now under the heading `Changes to be committed`.
+
+### Committing changes
+
+When we are committing changes, we need to provide a descriptive message for
+what the changes are for.  For this tutorial, we will use short messages, but
+these messages can be really long and explaining the motivation behind the
+changes (e.g., a bug fix).
+
+Let's commit our change:
+
+```
+git commit -m 'added a new line to hello.txt'
+```
+
+Here, the structure of the command is as follows:
+- `git commit` is the command.
+- `-m` tells Git what our commit message is (if we don't give it, Git will open
+  a text editor to write it).
+- The next argument `'added a new line to hello.txt'` is our commit message.
+
+After running this command, you should see an output like the following:
+
+```
+[main 1ca7e93] added a new line to hello.txt
+ 1 file changed, 2 insertions(+)
+```
+
+On the first line, you can see the commit message, and on the next line you can
+see a summary of the changes.
+
+### Why split it into `git add` and `git commit`?
+
+- `git add` allows us to slowly mark changes, and we can pick and choose what we
+  want to add before creating a commit and saving everything in the change
+  history.
+- `git commit` bundles all these changes and saves them to the commit history.
+  This operation is a bit more involved to undo, so the separation gives us some
+  control.
+  
+For quick commits that change existing files, you can just use `git commit file1 file2 ... fileN -m 'commit message'`.
+
+### Adding new files
+
+Let's create a new file and add it to our repository too.  The workflow is the
+same, but the status of the repository will be different.
+
+Use your favorite text editor to create a file named `greet.py` with the following contents:
+
+```python
+print('Hello, world!')
+```
+
+Now, when we run `git status`, we see a slightly different message:
+
+```
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        greet.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+- The second line says that we have 1 commit we haven't uploaded to `origin`
+  (the remote repo).  We will do that later.
+- The last few lines mention that there is a file named `greet.py` that Git is
+  not keeping track of.
+  
+Git does not keep track of new files by default, we need to manually add them.
+This way, it is harder for us to accidentally commit things like `.class` files
+or temporary files we created.
+
+Let's add and commit this file:
+
+```
+git add greet.py
+git commit -m 'Created a hello world program'
+```
+
+## Uploading changes to GitHub
+
+We created and saved some changes, but we have not uploaded them to GitHub.  So,
+if something happens to our computer now, all changes will be lost!  We can see
+the number of changes we haven't uploaded via `git status`:
+
+```
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+The second line says that we have 2 changes we haven't uploaded yet.  We can see
+the details of the change history via `git log`.  When you run it, you should
+see something like this:
+
+```
+commit 413cdffa69b146281beb524f03c69d0f9e352085 (HEAD -> main)
+Author: Mehmet Emre <memre@usfca.edu>
+Date:   Fri Feb 7 17:35:13 2025 -0800
+
+    Created a hello world program
+
+commit 547d605a39013cd0f057f8ca36050101998ccd85
+Author: Mehmet Emre <memre@usfca.edu>
+Date:   Fri Feb 7 17:31:32 2025 -0800
+
+    added a new line to hello.txt
+
+commit 88ab9ab735e4dcf3138f7de9ffaa05f0d0a3516a (origin/main, origin/HEAD)
+Author: Mehmet Emre <memre@usfca.edu>
+Date:   Fri Feb 7 17:02:56 2025 -0800
+
+...
+```
+
+The top changes are the changes we made in this workshop.  You see that the next
+change is already on GitHub, because there is `origin/main` next to it.  This is
+how Git marks where each repository's most recent change is at.
+
+We will use the `git push` command to upload all these changes.  After running
+`git push`, you should see something like:
+
+```
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 603 bytes | 603.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:<your username>/git-basics.git
+   88ab9ab..413cdff  main -> main
+```
 
 ## TODO Restoring some changes
 
@@ -161,7 +363,16 @@ Let's start by
 - `git clone` creates a brand new copy of a remote Git repository.
 - `git pull` downloads the new changes (new commits) **from** the remote
   repository.  We have not used this command in this tutorial.
+- `git status` shows the status of the repository.
 - `git add` marks some files as changed for the next commit.
 - `git commit -m 'commit message'` creates a new commit.
 - `git push` uploads all the new commits **to** the remote repository.
+- `git log` shows the change history (you can also view it on GitHub).
 - `git restore foo.txt` undoes uncommitted changes to `foo.txt`.
+
+## Do I have to use the command line for all this?
+
+No.  There are lots of Git wrappers (your favorite IDE/editor might have one
+too).  We used the command line because
+- different students have different setups, and
+- the command line interface is ubiquitous.
